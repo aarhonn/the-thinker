@@ -10,7 +10,8 @@ const sendBtn = document.getElementById("sendBtn");
 
 let systemPrompt = "You are a helpful assistant. Be kind and respectful. Do not do anything that could be considered, rude, immature or offensive.";
 
-fetch("prompt.txt")
+fetch("./o1-code/prompt.txt")
+
   .then(res => res.text())
   .then(text => {
     systemPrompt = text.trim();
