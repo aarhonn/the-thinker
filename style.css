@@ -1,12 +1,20 @@
 body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background: #0f1724;
-  color: #e6eef6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: #0f1724;
+    color: #e6eef6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: linear-gradient(135deg, #0f1724, #1a1f2e);
+    color: #e6eef6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .container {
@@ -20,7 +28,6 @@ body {
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
-
 .chat-window {
   flex: 1;
   padding: 16px;
@@ -76,16 +83,7 @@ button:hover {
 }
 
 
-body {
-    margin: 0;
-    font-family: 'Inter', system-ui, sans-serif;
-    background: linear-gradient(135deg, #0f1724, #1a1f2e);
-    color: #e6eef6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+
 
 .container {
     display: flex;
