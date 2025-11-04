@@ -1,5 +1,5 @@
 //script.js, created by aaron tibbitts on 10.26.2025
-const API_KEY = "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"; 
+const API_KEY = "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"; 
 const ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "groq/compound";
 
