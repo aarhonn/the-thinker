@@ -188,3 +188,55 @@ button:hover {
         transform: translateY(0);
     }
 }
+
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #374151, #1f2937);
+    border-radius: 12px;
+    width: fit-content;
+    margin-bottom: 16px;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-out;
+}
+
+.typing-indicator.visible {
+    max-height: 50px;
+    opacity: 1;
+}
+
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: #7c5cff;
+    border-radius: 50%;
+    animation: bounce 1.5s infinite;
+    opacity: 0.6;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    0%, 60%, 100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-6px);
+    }
+}
+
+
+.message.ai:last-child:contains("…") {
+    display: none;
+}
