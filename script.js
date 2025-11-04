@@ -99,3 +99,56 @@ function sanitizeHTML(text) {
     div.textContent = text;
     return div.innerHTML;
 }
+
+
+
+const typingIndicator = document.createElement('div');
+typingIndicator.className = 'typing-indicator';
+typingIndicator.innerHTML = `
+    <div class="typing-content">
+        <div class="avatar">AI</div>
+        <div style="display: flex; gap: 4px; align-items: center;">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+`;
+
+
+function appendMessage(role, text) {
+    const div = document.createElement("div");
+    div.className = `message ${role}`;
+    
+    const content = document.createElement("div");
+    content.className = "message-content";
+    
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+    avatar.textContent = role === "user" ? "AT" : "AI";
+    
+    const messageText = document.createElement("div");
+    messageText.className = "message-text";
+    messageText.innerHTML = formatMessage(text);
+    
+    content.appendChild(avatar);
+    content.appendChild(messageText);
+    div.appendChild(content);
+    
+    chatEl.appendChild(div);
+    chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+
+const textarea = document.getElementById("userInput");
+textarea.addEventListener("input", function() {
+    this.style.height = "auto";
+    this.style.height = (this.scrollHeight) + "px";
+});
+
+
+document.querySelector('.input-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    sendMessage();
+});
+
