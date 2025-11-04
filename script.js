@@ -1,4 +1,3 @@
-//script.js, created by aaron tibbitts on 10.26.2025, updated on 2025-11-04
 const API_KEY = "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"; 
 const ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "groq/compound";
@@ -6,100 +5,67 @@ const MODEL = "groq/compound";
 const chatEl = document.getElementById("chat");
 const userInput = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
+const settingsBtn = document.getElementById("settingsBtn");
+const settingsModal = document.getElementById("settingsModal");
+const newChatBtn = document.querySelector(".new-chat");
 
-let systemPrompt = "You are a helpful assistant. Be kind and respectful. Do not do anything that could be considered, rude, immature or offensive.";
+
+let systemPrompt = "";
+let userSettings = {
+    interests: "Replace this with what you want Aaron One to know about you...",
+
+};
 
 
-function formatMessage(text) {
-    
-    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    text = text.replace(/__(.*?)__/g, '<strong>$1</strong>');
-    
-    
-    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    text = text.replace(/_(.*?)_/g, '<em>$1</em>');
-    
-    
-    text = text.replace(/`(.*?)`/g, '<code>$1</code>');
-    
-    return text;
+function loadUserSettings() {
+    const savedSettings = localStorage.getItem('userSettings');
+    if (savedSettings) {
+        userSettings = JSON.parse(savedSettings);
+        updateSettingsForm();
+    }
 }
 
-fetch("./o1-code/prompt.txt")
-    .then(res => res.text())
-    .then(text => {
-        systemPrompt = text.trim();
-        appendMessage("ai", "Hello! Nice to meet you. My name is aaron-one. What's on your mind?");
-    })
-    .catch(err => {
-        appendMessage("ai", "Error loading. Please refresh page.");
-    });
 
-function appendMessage(role, text) {
-    const div = document.createElement("div");
-    div.className = `message ${role}`;
-    div.innerHTML = formatMessage(text); 
-    chatEl.appendChild(div);
-    chatEl.scrollTop = chatEl.scrollHeight;
+function saveUserSettings() {
+    localStorage.setItem('userSettings', JSON.stringify(userSettings));
+    updateSystemPrompt();
 }
 
-async function sendMessage() {
-    const text = userInput.value.trim();
-    if (!text) return;
-    
-    
-    appendMessage("user", text);
-    userInput.value = "";
-    
-    
-    appendMessage("ai", "…");
-    const placeholder = chatEl.lastChild;
-    
-    try {
-        const res = await fetch(ENDPOINT, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${API_KEY}`
-            },
-            body: JSON.stringify({
-                model: MODEL,
-                messages: [
-                    { role: "system", content: systemPrompt },
-                    { role: "user", content: text }
-                ]
-            })
+
+function updateSystemPrompt() {
+    fetch("./prompt.txt")
+        .then(res => res.text())
+        .then(text => {
+            const basePrompt = text.trim();
+            const userContext = `Additional context about the user:\nName: ${userSettings.name}\n${userSettings.age ? 'Age: ' + userSettings.age + '\n' : ''}${userSettings.interests ? 'Interests: ' + userSettings.interests + '\n' : ''}${userSettings.background ? 'Background: ' + userSettings.background + '\n' : ''}${userSettings.preferences ? 'Preferences: ' + userSettings.preferences + '\n' : ''}`;
+            systemPrompt = `${basePrompt}\n\n${userContext}`;
+        })
+        .catch(err => {
+            console.error("Error loading prompt:", err);
         });
-
-        if (!res.ok) {
-            throw new Error(await res.text());
-        }
-
-        const data = await res.json();
-        const reply = data.choices?.[0]?.message?.content || "(no response)";
-        placeholder.innerHTML = formatMessage(reply); 
-    } catch (err) {
-        placeholder.innerHTML = formatMessage("Error: " + err.message);
-    }
 }
 
 
-sendBtn.addEventListener("click", sendMessage);
-
-userInput.addEventListener("keydown", e => {
-    if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-    }
-});
-
-
-function sanitizeHTML(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+function updateSettingsForm() {
+    document.getElementById('settingsName').value = userSettings.name || '';
+    document.getElementById('settingsAge').value = userSettings.age || '';
+    document.getElementById('settingsInterests').value = userSettings.interests || '';
+    document.getElementById('settingsBackground').value = userSettings.background || '';
+    document.getElementById('settingsPreferences').value = userSettings.preferences || '';
 }
 
+function handleSettingsSubmit(e) {
+    e.preventDefault();
+    userSettings = {
+        name: document.getElementById('settingsName').value,
+        age: document.getElementById('settingsAge').value,
+        interests: document.getElementById('settingsInterests').value,
+        background: document.getElementById('settingsBackground').value,
+        preferences: document.getElementById('settingsPreferences').value
+    };
+    saveUserSettings();
+    settingsModal.style.display = "none";
+}
 
 
 const typingIndicator = document.createElement('div');
@@ -115,6 +81,37 @@ typingIndicator.innerHTML = `
     </div>
 `;
 
+function showTypingIndicator() {
+    chatEl.appendChild(typingIndicator);
+    typingIndicator.offsetHeight;
+    typingIndicator.classList.add('visible');
+    chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function hideTypingIndicator() {
+    typingIndicator.classList.remove('visible');
+    setTimeout(() => {
+        if (typingIndicator.parentNode === chatEl) {
+            chatEl.removeChild(typingIndicator);
+        }
+    }, 300);
+}
+
+function formatMessage(text) {
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/__(.*?)__/g, '<strong>$1</strong>');
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    text = text.replace(/_(.*?)_/g, '<em>$1</em>');
+    text = text.replace(/`(.*?)`/g, '<code>$1</code>');
+    return text;
+}
+
+
+function initializeChat() {
+    loadUserSettings();
+    updateSystemPrompt();
+    appendMessage("ai", "Hello! Nice to meet you. My name is aaron-one. What's on your mind?");
+}
 
 function appendMessage(role, text) {
     const div = document.createElement("div");
@@ -139,16 +136,75 @@ function appendMessage(role, text) {
     chatEl.scrollTop = chatEl.scrollHeight;
 }
 
+async function sendMessage() {
+    const text = userInput.value.trim();
+    if (!text) return;
+    
+    appendMessage("user", text);
+    userInput.value = "";
+    userInput.style.height = "auto";
+    
+    showTypingIndicator();
+    
+    try {
+        const res = await fetch(ENDPOINT, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+                model: MODEL,
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: text }
+                ]
+            })
+        });
 
-const textarea = document.getElementById("userInput");
-textarea.addEventListener("input", function() {
+        if (!res.ok) {
+            throw new Error(await res.text());
+        }
+
+        const data = await res.json();
+        const reply = data.choices?.[0]?.message?.content || "(no response)";
+        
+        hideTypingIndicator();
+        appendMessage("ai", reply);
+    } catch (err) {
+        hideTypingIndicator();
+        appendMessage("ai", "Error: " + err.message);
+    }
+}
+
+
+document.querySelector('.input-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    sendMessage();
+});
+
+userInput.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+
+userInput.addEventListener("input", function() {
     this.style.height = "auto";
     this.style.height = (this.scrollHeight) + "px";
 });
 
 
-document.querySelector('.input-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    sendMessage();
+newChatBtn.addEventListener('click', () => {
+    chatEl.innerHTML = '';
+    initializeChat();
 });
 
+
+settingsBtn?.addEventListener('click', () => {
+    settingsModal.style.display = "flex";
+});
+
+
+initializeChat();
