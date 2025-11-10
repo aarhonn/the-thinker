@@ -1,7 +1,7 @@
-const API_KEY = "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"; 
+const API_KEY = "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"; 
 const ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "groq/compound";
-
+const COOL_GUY = "aaron"
 const chatEl = document.getElementById("chat");
 const userInput = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
@@ -12,7 +12,7 @@ const newChatBtn = document.querySelector(".new-chat");
 
 let systemPrompt = "";
 let userSettings = {
-    interests: "Replace this with what you want Aaron One to know about you...",
+    interests: "Replace this with what you want aaron-o1 to know about you...",
 
 };
 
