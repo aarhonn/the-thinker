@@ -1,4 +1,4 @@
-# WEBSITE HERE! https://aarhonn.github.io/aaron-o1/ 
+# https://aarhonn.github.io/aaron-o1/ 
 
 
 Hello! Glad you could be here.
