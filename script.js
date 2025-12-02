@@ -1,4 +1,4 @@
-const API_KEY = process.env.GROQ_API_KEY;
+const API_KEY = "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"
 const ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "groq/compound";
 const COOL_GUY = "aaron"
