@@ -111,6 +111,7 @@ function formatMessage(text) {
 
 
 function initializeChat() {
+<<<<<<< HEAD
     
     chatEl.innerHTML = `
         <div class="welcome-message">
@@ -119,6 +120,11 @@ function initializeChat() {
         </div>
     `;
     chatContainer.classList.add('welcome-state');
+=======
+    loadUserSettings();
+    updateSystemPrompt();
+    appendMessage("ai", "Hello! Nice to meet you. My name is Sterling. What's on your mind?");
+>>>>>>> parent of 6f2de1a (Change name to Sterling)
 }
 
 function appendMessage(role, text) {
