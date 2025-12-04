@@ -16,7 +16,7 @@ const chatContainer = document.querySelector('.chat-container');
 
 let systemPrompt = "";
 let userSettings = {
-    interests: "Replace this with what you want Sterling to know about you...",
+    interests: "Replace this with what you want aaron-o1 to know about you...",
 };
 
 
@@ -123,7 +123,11 @@ function initializeChat() {
 =======
     loadUserSettings();
     updateSystemPrompt();
+<<<<<<< HEAD
     appendMessage("ai", "Hello! Nice to meet you. My name is Sterling. What's on your mind?");
+>>>>>>> parent of 6f2de1a (Change name to Sterling)
+=======
+    appendMessage("ai", "Hello! Nice to meet you. My name is aaron-one. What's on your mind?");
 >>>>>>> parent of 6f2de1a (Change name to Sterling)
 }
 
