@@ -1,4 +1,4 @@
-# https://aarhonn.github.io/aaron-o1/ 
+# https://aarhonn.github.io/the-thinker/ 
 
 
 Hello! Glad you could be here.
