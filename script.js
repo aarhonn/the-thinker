@@ -121,7 +121,7 @@ function appendMessage(role, text) {
     
     const avatar = document.createElement("div");
     avatar.className = "avatar";
-    avatar.textContent = role === "user" ? "AT" : "AI";
+    avatar.textContent = role === "user" ? "Me" : "🧠";
     
     const messageText = document.createElement("div");
     messageText.className = "message-text";
