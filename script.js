@@ -12,7 +12,7 @@ const newChatBtn = document.querySelector(".new-chat");
 
 let systemPrompt = "";
 let userSettings = {
-    interests: "Replace this with what you want The Thinker to know about you...",
+    interests: "Note: this feature currently doesn't work! It's in the works though. For now, ignore this. ᕕ( ᐛ )ᕗ",
 };
 
 
