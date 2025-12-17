@@ -1,6 +1,6 @@
 const API_KEY = "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"
 const ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = "openai/gpt-oss-20b";
+const MODEL = "groq/compound";
 const COOL_GUY = "AARHON"
 const chatEl = document.getElementById("chat");
 const userInput = document.getElementById("userInput");
@@ -12,7 +12,7 @@ const newChatBtn = document.querySelector(".new-chat");
 
 let systemPrompt = "";
 let userSettings = {
-    interests: "Note: this feature currently doesn't work! It's in the works though. For now, ignore this. ᕕ( ᐛ )ᕗ",
+    interests: "Note: this currently doesn't work! But I'll work on it eventually. For now, just ignore this. ᕕ( ᐛ )ᕗ",
 };
 
 
