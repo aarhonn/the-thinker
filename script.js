@@ -1,4 +1,4 @@
-const API_KEY = "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"
+const API_KEY = "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"
 const ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "groq/compound";
 const COOL_GUY = "AARHON"
