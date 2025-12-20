@@ -10,6 +10,8 @@ const settingsModal = document.getElementById("settingsModal");
 const newChatBtn = document.querySelector(".new-chat");
 
 
+let conversation = JSON.parse(localStorage.getItem("conversation")) || [];
+
 let systemPrompt = "";
 let userSettings = {
     interests: "N/A",
@@ -145,6 +147,19 @@ async function sendMessage() {
     
     showTypingIndicator();
     
+async function sendMessage() {
+    const text = userInput.value.trim();
+    if (!text) return;
+
+    
+    conversation.push({ role: "user", content: text });
+
+    appendMessage("user", text);
+    userInput.value = "";
+    userInput.style.height = "auto";
+
+    showTypingIndicator();
+
     try {
         const res = await fetch(ENDPOINT, {
             method: "POST",
@@ -156,7 +171,7 @@ async function sendMessage() {
                 model: MODEL,
                 messages: [
                     { role: "system", content: systemPrompt },
-                    { role: "user", content: text }
+                    ...conversation
                 ]
             })
         });
@@ -167,7 +182,13 @@ async function sendMessage() {
 
         const data = await res.json();
         const reply = data.choices?.[0]?.message?.content || "(no response)";
+
         
+        conversation.push({ role: "assistant", content: reply });
+
+        
+        localStorage.setItem("conversation", JSON.stringify(conversation));
+
         hideTypingIndicator();
         appendMessage("ai", reply);
     } catch (err) {
@@ -175,6 +196,7 @@ async function sendMessage() {
         appendMessage("ai", "Error: " + err.message);
     }
 }
+
 
 
 document.querySelector('.input-form').addEventListener('submit', (e) => {
@@ -206,7 +228,13 @@ settingsBtn?.addEventListener('click', () => {
 });
 
 
+window.addEventListener("load", () => {
+    conversation.forEach(msg => {
+        appendMessage(msg.role === "user" ? "user" : "ai", msg.content);
+    });
+});
+
 initializeChat();
 
 
-//This is code for an AI made by Aaron Tibbitts. Groq barely used at all, and AI hosted on Aaron's PC.
+//This is code for The Thinker, an AI made by Aaron Tibbitts. Groq barely used at all, and AI hosted on Aaron's PC.
