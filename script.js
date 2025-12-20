@@ -208,14 +208,20 @@ userInput.addEventListener("input", function() {
 });
 
 
-newChatBtn.addEventListener('click', () => {
-    chatEl.innerHTML = '';
+function resetChat(e) {
+  if (e) e.preventDefault();
 
-    conversation = [];
-    localStorage.removeItem("conversation");
+  chatEl.innerHTML = '';
 
-    initializeChat();
-});
+  conversation = [];
+  localStorage.removeItem("conversation");
+
+  initializeChat();
+}
+
+
+newChatBtn.addEventListener('click', resetChat);
+
 
 
 
