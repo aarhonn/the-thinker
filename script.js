@@ -137,16 +137,7 @@ function appendMessage(role, text) {
     chatEl.scrollTop = chatEl.scrollHeight;
 }
 
-async function sendMessage() {
-    const text = userInput.value.trim();
-    if (!text) return;
-    
-    appendMessage("user", text);
-    userInput.value = "";
-    userInput.style.height = "auto";
-    
-    showTypingIndicator();
-    
+
 async function sendMessage() {
     const text = userInput.value.trim();
     if (!text) return;
