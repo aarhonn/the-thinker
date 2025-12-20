@@ -210,8 +210,13 @@ userInput.addEventListener("input", function() {
 
 newChatBtn.addEventListener('click', () => {
     chatEl.innerHTML = '';
+
+    conversation = [];
+    localStorage.removeItem("conversation");
+
     initializeChat();
 });
+
 
 
 settingsBtn?.addEventListener('click', () => {
