@@ -12,7 +12,7 @@ const newChatBtn = document.querySelector(".new-chat");
 
 let systemPrompt = "";
 let userSettings = {
-    interests: "Note: this currently doesn't work! But I'll work on it eventually. For now, just ignore this. ᕕ( ᐛ )ᕗ",
+    interests: "N/A",
 };
 
 
